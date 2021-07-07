@@ -10,6 +10,7 @@ from math import acos, degrees, sqrt
 def ca(d):
 	return d["V1"]/d["V2"]
 
+# ang = acos(FP)
 def cang(d):
 	if d["eFP"] == 0:
 		return degrees(acos(d["FP"]))
