@@ -150,7 +150,7 @@ def resource_path(relative_path):
 	return os.path.join(base_path, relative_path)
 
 def TocarHino():
-	mixer.music.load(resource_path("Sounds/HinoVasco.mp3"))
+	mixer.music.load(resource_path("Sounds/Hino-Vasco.mp3"))
 	mixer.music.play(loops=-1)
 
 if __name__ == "__main__":
@@ -159,5 +159,5 @@ if __name__ == "__main__":
 	app = Vasco()
 	app.resizable(False, False)
 	app.title("VASCO")
-	app.iconbitmap(resource_path("Images/CruzDeMalta.ico"))
+	app.iconbitmap(resource_path("Images/Cruz-De-Malta.ico"))
 	app.mainloop()
