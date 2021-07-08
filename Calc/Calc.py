@@ -1,3 +1,4 @@
+# ✠ VASCO
 # Importar Bibliotecas
 from math import acos, degrees, sqrt
 
