@@ -1,9 +1,12 @@
 # ✠ VASCO
 # Importar Bibliotecas
-from math import acos, sqrt, sin, cos
+from math import acos, degrees, sqrt, sin, cos, atan
 
 # Gerador de ASCII:
 # https://arthursonzogni.com/Diagon/#Math
+
+def pol(c):
+	return f"{abs(c)} < {degrees(atan(c.imag/c.real))}º"
 
 def rec(rho, phi):
 	x = rho * cos(phi)
@@ -152,7 +155,7 @@ def cIm(d):
 	return d["E2"]/complex(0,d["Xm2"])
 
 def cI1_(d):
-	return d["I2"]-d["Ic"]-d["Im"]
+	return d["I2"]+d["Ic"]+d["Im"]
 
 def cV1_(d):
 	return d["E2"]+complex(d["R2"],d["X2"])*d["I1_"]

@@ -85,6 +85,7 @@ class Vasco(Tk):
 		for i in range(len(saida_calc)):
 			try:
 				self.dados[saida_calc[i]] = eval("c"+saida_calc[i]+"(self.dados)")
+				# print(f"{saida_calc[i]} = {pol(self.dados[saida_calc[i]])}")
 				for ii in range(len(self.saida_txt)):
 					if self.saida_txt[ii] == saida_calc[i]:
 						self.saida_var[ii].set(str(self.dados[saida_calc[i]]))
