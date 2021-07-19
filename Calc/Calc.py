@@ -1,9 +1,14 @@
 # ✠ VASCO
 # Importar Bibliotecas
-from math import acos, degrees, sqrt
+from math import acos, sqrt, sin, cos
 
 # Gerador de ASCII:
 # https://arthursonzogni.com/Diagon/#Math
+
+def rec(rho, phi):
+	x = rho * cos(phi)
+	y = rho * sin(phi)
+	return complex(x, y)
 
 #     V1
 # a = ──
@@ -13,24 +18,50 @@ def ca(d):
 
 # ang = acos(FP)
 def cang(d):
-	if d["eFP"] == 0:
-		return degrees(acos(d["FP"]))
+	if d["tFP"] == 0:
+		return -acos(d["FP"])
 	else:
-		return -degrees(acos(d["FP"]))
+		return acos(d["FP"])
 
 #         2       2       2
 #      Vvz    Rphi  + Xphi 
 # Rc = ──── = ─────────────
 #       Pvz       Rphi     
-def cRc(d):
-	return (d["Vvz"]**2)/d["Pvz"]
+def cRc1(d):
+	if d["lE"] == 0:
+		return (d["Vvz"]**2)/d["Pvz"]
+	else:
+		return d["Rc2"]*(d["a"]**2)
 
 #          2       2
 #      Rphi  + Xphi 
 # Xm = ─────────────
 #          Xphi     
-def cXm(d):
-	return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
+def cXm1(d):
+	if d["lE"] == 0:
+		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
+	else:
+		return d["Xm2"]*(d["a"]**2)
+
+#         2       2       2
+#      Vvz    Rphi  + Xphi 
+# Rc = ──── = ─────────────
+#       Pvz       Rphi     
+def cRc2(d):
+	if d["lE"] == 1:
+		return (d["Vvz"]**2)/d["Pvz"]
+	else:
+		return d["Rc1"]/(d["a"]**2)
+
+#          2       2
+#      Rphi  + Xphi 
+# Xm = ─────────────
+#          Xphi     
+def cXm2(d):
+	if d["lE"] == 1:
+		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
+	else:
+		return d["Xm1"]/(d["a"]**2)
 
 #          Vvz
 # |zphi| = ───
@@ -74,24 +105,75 @@ def cXeq(d):
 # R1 = R2' = ───
 #             2 
 def cR1(d):
-	return d["Req"]/2
-
-#            R1
-# R1' = R2 = ──
-#             2
-#            a 
-def cR1_(d):
-	return d["R1"]/(d["a"]**2)
+	if d["lE"] == 1:
+		return d["Req"]/2
+	else:
+		return d["R2"]*(d["a"]**2)
 
 #            Xeq
 # X1 = X2' = ───
 #             2 
 def cX1(d):
-	return d["Xeq"]/2
+	if d["lE"] == 1:
+		return d["Xeq"]/2
+	else:
+		return d["X2"]*(d["a"]**2)
+
+#            R1
+# R1' = R2 = ──
+#             2
+#            a 
+def cR2(d):
+	if d["lE"] == 0:
+		return d["Req"]/2
+	else:
+		return d["R1"]/(d["a"]**2)
 
 #            X1
 # X1' = X2 = ──
 #             2
 #            a 
-def cX1_(d):
-	return d["X1"]/(d["a"]**2)
+def cX2(d):
+	if d["lE"] == 0:
+		return d["Xeq"]/2
+	else:
+		return d["X1"]/(d["a"]**2)
+
+def cI2(d):
+	return rec(d["C"]/d["V2"],d["ang"])
+
+def cE2(d):
+	return d["V2"]+complex(d["R2"],d["X2"])*d["I2"]
+
+def cIc(d):
+	return d["E2"]/d["Rc2"]
+
+def cIm(d):
+	return d["E2"]/complex(0,d["Xm2"])
+
+def cI1_(d):
+	return d["I2"]-d["Ic"]-d["Im"]
+
+def cV1_(d):
+	return d["E2"]+complex(d["R2"],d["X2"])*d["I1_"]
+
+def cPcu1(d):
+	return d["R2"]*(abs(d["I1_"])**2)
+
+def cPcu2(d):
+	return d["R2"]*(abs(d["I2"])**2)
+
+def cPcu(d):
+	return d["Pcu1"]+d["Pcu2"]
+
+def cPnu(d):
+	return (abs(d["E2"])**2)/d["Rc2"]
+
+def cPt(d):
+	return d["Pcu"]+d["Pnu"]
+
+def cRt(d):
+	return 100*(abs(d["V1_"])-d["V2"])/d["V2"]
+
+def cNef(d):
+	return 100*d["C"]*d["FP"]/(d["Pt"]+d["C"]*d["FP"])

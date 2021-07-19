@@ -25,7 +25,7 @@ pip install pyinstaller
 ```
 ## Comando Compilar
 ```
-pyinstaller --noconfirm --onefile --windowed --icon "Images/CruzDeMalta.ico" --add-data "Images;Images/" --add-data "Sounds;Sounds/" "./VASCO.py"
+pyinstaller --noconfirm --onefile --windowed --icon "Images/Cruz-De-Malta.ico" --add-data "Images;Images/" --add-data "Sounds;Sounds/" "./VASCO.py"
 ```
 ```
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁
