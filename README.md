@@ -1,9 +1,9 @@
 # ✠ VASCO - VAriable tranSformer CalculatOr
-![Badge](https://img.shields.io/badge/license-BeerWare-yellow?style=for-the-badge)
+<a href="LICENSE">![Badge](https://img.shields.io/badge/license-BeerWare-yellow?style=for-the-badge)</a>
 
 Software que calcula informações de transformadores feita para a matéria de "Conversão Eletromecânica de Energia I" do curso de "Engenharia Elétrica" da Universidade Federal de Santa Maria Campus Cachoeira do Sul (UFSM-CS).
 
-<a href="LISCENSE"><img src="./Images/VASCO.png"></a>
+<img src="./Images/VASCO.png">
 
 ## Autores:
 - Arthur Cordeiro Andrade
