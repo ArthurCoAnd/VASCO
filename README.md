@@ -3,7 +3,11 @@
 
 Software que calcula informações de transformadores feita para a matéria de "Conversão Eletromecânica de Energia I" do curso de "Engenharia Elétrica" da Universidade Federal de Santa Maria Campus Cachoeira do Sul (UFSM-CS).
 
+## Interface
 <img src="./Images/VASCO.png">
+
+## Gráfico
+<img src="./Images/Gráfico.png">
 
 ## Autores:
 - Arthur Cordeiro Andrade
