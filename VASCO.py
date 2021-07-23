@@ -1,10 +1,16 @@
 # ✠ VASCO
-# Importar Bibliotecas
+# "A LICENÇA BEER-WARE" ou "A LICENÇA DA CERVEJA" (Revisão 42):
+# <arthurcoand@gmail.com>/<jg2001.avellar@gmail.com> escreveu este arquivo.
+# Enquanto você manter este comentário, você poderá fazer o que quiser com este arquivo.
+# Caso nos encontremos algum dia e você ache que este arquivo vale,
+# você poderá me comprar uma cerveja em retribuição. Arthur Cordeiro Andrade e João Gabriel Silva de Avellar.
+
+# Bibliotecas
 from pygame import mixer
 from tkinter import *
 import os
 import sys
-# Importar Ferramentas
+# Ferramentas
 from Tools.Calc import *
 from Tools.GerarGráfico import GerarGráfico as GG
 
@@ -215,7 +221,7 @@ def TocarHino():
 
 if __name__ == "__main__":
 	mixer.init()
-	TocarHino()
+	# TocarHino()
 	app = Vasco()
 	app.resizable(False, False)
 	app.title("VASCO")
