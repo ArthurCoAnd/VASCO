@@ -11,6 +11,7 @@ Software que calcula informações de transformadores feita para a matéria de "
 
 ## Autores:
 - Arthur Cordeiro Andrade
+- Ingridi dos Santos Kremer
 - João Gabriel Silva de Avellar
 ## Dependências
 - PyGame - https://www.pygame.org

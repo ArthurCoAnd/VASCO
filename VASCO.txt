@@ -1,5 +1,7 @@
 ✠ VASCO
 
+✠ Vasco
+
 ===================================
 = VAriable tranSformer CalculatOr =
 ===================================

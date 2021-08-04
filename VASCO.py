@@ -1,9 +1,9 @@
 # ✠ VASCO
 # "A LICENÇA BEER-WARE" ou "A LICENÇA DA CERVEJA" (Revisão 42):
-# <arthurcoand@gmail.com>/<jg2001.avellar@gmail.com> escreveu este arquivo.
+# <arthurcoand@gmail.com>/<ingridikremer@hotmail.com>/<jg2001.avellar@gmail.com> escreveu este arquivo.
 # Enquanto você manter este comentário, você poderá fazer o que quiser com este arquivo.
-# Caso nos encontremos algum dia e você ache que este arquivo vale,
-# você poderá me comprar uma cerveja em retribuição. Arthur Cordeiro Andrade e João Gabriel Silva de Avellar.
+# Caso nos encontremos algum dia e você ache que este arquivo vale, você poderá me comprar uma cerveja em retribuição.
+# Arthur Cordeiro Andrade, Ingridi dos Santos Kremer e João Gabriel Silva de Avellar.
 
 # Bibliotecas
 from pygame import mixer
@@ -18,7 +18,7 @@ class Vasco(Tk):
 	def __init__(self):
 		Tk.__init__(self)
 		self.config(padx=15, pady=15)
-		self.dados = {"Pn":"","V1":"","V2":"","FP":"","tFP":"","lE":"","Vvz":"","Ivz":"","Pvz":"","Vcc":"","Icc":"","Pcc":"","a":"","ang":"","Rc1":"","Xm1":"","Rc2":"","Xm2":"","Zphi":"","Rphi":"","Xphi":"","Zcc":"","Req":"","Xeq":"","R1":"","X1":"","R2":"","X2":"","E2":"","Pcu1":"","Pcu2":"","Pcu":"","Pnu":"","Pt":"","Rt":"","Nef":"","C":"","I2":"","E2":"","Ic":"","Im":"","I1_":"","V1_":""}
+		self.dados = {}
 		self.Entradas(self).grid(row=0,column=0)
 		self.CircuitoEquivalente(self).grid(row=0, column=1)
 		self.Saida(self).grid(row=0, column=2)

@@ -1,9 +1,9 @@
 # ✠ VASCO
 # "A LICENÇA BEER-WARE" ou "A LICENÇA DA CERVEJA" (Revisão 42):
-# <arthurcoand@gmail.com>/<jg2001.avellar@gmail.com> escreveu este arquivo.
+# <arthurcoand@gmail.com>/<ingridikremer@hotmail.com>/<jg2001.avellar@gmail.com> escreveu este arquivo.
 # Enquanto você manter este comentário, você poderá fazer o que quiser com este arquivo.
-# Caso nos encontremos algum dia e você ache que este arquivo vale,
-# você poderá me comprar uma cerveja em retribuição. Arthur Cordeiro Andrade e João Gabriel Silva de Avellar.
+# Caso nos encontremos algum dia e você ache que este arquivo vale, você poderá me comprar uma cerveja em retribuição.
+# Arthur Cordeiro Andrade, Ingridi dos Santos Kremer e João Gabriel Silva de Avellar.
 
 # Bibliotecas
 from math import acos, degrees, sqrt, sin, cos, atan
@@ -173,13 +173,13 @@ def cPcu2(d):
 	return d["R2"]*(abs(d["I2"])**2)
 
 def cPcu(d):
-	return d["Pcu1"]+d["Pcu2"]
+	return float(d["Pcu1"])+float(d["Pcu2"])
 
 def cPnu(d):
 	return (abs(d["E2"])**2)/d["Rc2"]
 
 def cPt(d):
-	return d["Pcu"]+d["Pnu"]
+	return float(d["Pcu"])+float(d["Pnu"])
 
 def cRt(d):
 	return 100*(abs(d["V1_"])-d["V2"])/d["V2"]
