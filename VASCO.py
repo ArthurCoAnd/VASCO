@@ -21,11 +21,14 @@ class Vasco(Tk):
 		self.dados = {}
 		self.Entradas(self).grid(row=0,column=0)
 		self.CircuitoEquivalente(self).grid(row=0, column=1)
-		self.Saida(self).grid(row=0, column=2)
+		self.CircuitoEquivalentePU(self).grid(row=0, column=2)
+		self.Saida(self).grid(row=0, column=3)
+		self.SaidaPU(self).grid(row=0, column=4)
 
 	def Calcular(self, *args):
 		self.lerDados()
 		self.calcularDados()
+		print(self.dados)
 
 	def lerDados(self):
 		self.dados["lE"] = self.lado_ensaio.get()
@@ -57,7 +60,22 @@ class Vasco(Tk):
 		try: self.dados["a"] = ca(self.dados)
 		except: pass
 		try: self.dados["ang"] = cang(self.dados)
-		except: pass 
+		except: pass
+		try: self.dados["Sb"] = cSb(self.dados)
+		except: pass
+		try: self.dados["V2b"] = cV2b(self.dados)
+		except: pass
+		try: self.dados["V1b"] = cV1b(self.dados)
+		except: pass
+		try: self.dados["Z2b"] = cZ2b(self.dados)
+		except: pass
+		try: self.dados["Z1b"] = cZ1b(self.dados)
+		except: pass
+		try: self.dados["I2b"] = cI2b(self.dados)
+		except: pass
+		try: self.dados["I1b"] = cI1b(self.dados)
+		except: pass
+		# Circuito Equivalente
 		if self.dados["lE"] == 0:
 			CE_calc = ["Rc1","Rc2","Zphi","Rphi","Xphi","Xm1","Xm2","Zcc","Req","Xeq","R2","R1","X2","X1"]
 			for i in range(len(CE_calc)):
@@ -86,6 +104,36 @@ class Vasco(Tk):
 					for ii in range(len(self.CE_txt)):
 						if self.CE_txt[ii] == CE_calc[i]:
 							self.resultados_CE_var[ii].set(self.dados[CE_calc[i]])
+		# Circuito Equivalente PU
+		if self.dados["lE"] == 0:
+			CE_calc = ["Rc1","Rc2","Xm1","Xm2","R2","R1","X2","X1"]
+			for i in range(len(CE_calc)):
+				try:
+					self.dados[CE_calc[i]+"pu"] = eval("c"+CE_calc[i]+"pu(self.dados)")
+					for ii in range(len(self.CE_txt)):
+						if self.CEpu_txt[ii] == CE_calc[i]:
+							self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]+"pu"]))
+							break
+				except:
+					self.dados[CE_calc[i]+"pu"] = "-"
+					for ii in range(len(self.CE_txt)):
+						if self.CEpu_txt[ii] == CE_calc[i]:
+							self.resultados_CEpu_var[ii].set(self.dados[CE_calc[i]+"pu"])
+		elif self.dados["lE"] == 1:
+			CE_calc = ["Rc2","Rc1","Xm2","Xm1","R1","R2","X1","X2"]
+			for i in range(len(CE_calc)):
+				try:
+					self.dados[CE_calc[i]+"pu"] = eval("c"+CE_calc[i]+"pu(self.dados)")
+					for ii in range(len(self.CE_txt)):
+						if self.CEpu_txt[ii] == CE_calc[i]:
+							self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]+"pu"]))
+							break
+				except:
+					self.dados[CE_calc[i]+"pu"] = "-"
+					for ii in range(len(self.CE_txt)):
+						if self.CEpu_txt[ii] == CE_calc[i]:
+							self.resultados_CEpu_var[ii].set(self.dados[CE_calc[i]+"pu"])
+		# Saida
 		saida_pol = ["I2","E2","Ic","Im","I1_","V1_"]
 		for i in range(len(self.saida_txt)):
 			try:
@@ -102,6 +150,14 @@ class Vasco(Tk):
 			except:
 				self.dados[self.saida_txt[i]] = "-"
 				self.saida_var[i].set(self.dados[self.saida_txt[i]])
+		# Saida PU
+		for i in range(len(self.saidaPU_txt)):
+			try:
+				self.dados[self.saidaPU_txt[i]+"pu"] = eval("c"+self.saidaPU_txt[i]+"pu(self.dados)")
+				self.saidaPU_var[i].set(pol(self.dados[self.saidaPU_txt[i]+"pu"]))
+			except:
+				self.dados[self.saidaPU_txt[i]+"pu"] = "-"
+				self.saidaPU_var[i].set(self.dados[self.saidaPU_txt[i]+"pu"])
 
 	def CriarGráfico(self):
 		d = self.dados.copy()
@@ -130,6 +186,7 @@ class Vasco(Tk):
 				linha += 1
 			# Entradas Ensaio
 			raiz.lado_ensaio = IntVar()
+			raiz.lado_ensaio.set(1)
 			raiz.lados_ensaio_txt = ["Primário","Secundário"]
 			raiz.entradas_ensaio = []
 			raiz.entradas_ensaio_var = []
@@ -162,9 +219,9 @@ class Vasco(Tk):
 			linha += 1
 			raiz.entradas_saida = []
 			raiz.entradas_saida_var = []
-			raiz.entradas_saida_t = ["FP","C"]
-			raiz.entradas_saida_txt = ["FP","Carga Saída"]
-			raiz.entradas_saida_unidades = ["","VA"]
+			raiz.entradas_saida_t = ["FP","C","V2op"]
+			raiz.entradas_saida_txt = ["FP","Potência de Operação","Tensão de Operação"]
+			raiz.entradas_saida_unidades = ["","VA","V"]
 			for i in range(len(raiz.entradas_saida_txt)):
 				Label(self, text=raiz.entradas_saida_txt[i]).grid(row=linha, column=0)
 				raiz.entradas_saida_var.append(StringVar())
@@ -192,6 +249,22 @@ class Vasco(Tk):
 				Label(self, text=raiz.CE_unidade[i]).grid(row=linha, column=2)
 				linha += 1
 
+	class CircuitoEquivalentePU(Frame):
+		def __init__(self, raiz):
+			Frame.__init__(self, raiz)
+			self.config(padx=25, pady=15)
+			raiz.CEpu_txt = ["Rc1","Xm1","R1","X1","Rc2","Xm2","R2","X2"]
+			raiz.CEpu_unidade = ["pu","pu","pu","pu","pu","pu","pu","pu"]
+			raiz.resultados_CEpu_var = []
+			linha = 0
+			for i in range(len(raiz.CEpu_txt)):
+				Label(self, text=raiz.CEpu_txt[i]).grid(row=linha, column=0)
+				raiz.resultados_CEpu_var.append(StringVar())
+				raiz.resultados_CEpu_var[i].set("-")
+				Label(self, textvariable=raiz.resultados_CEpu_var[i]).grid(row=linha, column=1)
+				Label(self, text=raiz.CEpu_unidade[i]).grid(row=linha, column=2)
+				linha += 1
+
 	class Saida(Frame):
 		def __init__(self, raiz):
 			Frame.__init__(self, raiz)
@@ -208,6 +281,22 @@ class Vasco(Tk):
 				Label(self, text=raiz.saida_unidades[i]).grid(row=linha, column=2)
 				linha += 1
 
+	class SaidaPU(Frame):
+		def __init__(self, raiz):
+			Frame.__init__(self, raiz)
+			self.config(padx=25, pady=15)
+			linha = 0
+			raiz.saidaPU_txt = ["I2","E2","I1_","V1_"]
+			raiz.saidaPU_unidades = ["pu","pu","pu","pu","pu","pu"]
+			raiz.saidaPU_var = []
+			for i in range(len(raiz.saidaPU_txt)):
+				Label(self, text=raiz.saidaPU_txt[i]).grid(row=linha, column=0)
+				raiz.saidaPU_var.append(StringVar())
+				raiz.saidaPU_var[i].set("-")
+				Label(self, textvariable=raiz.saidaPU_var[i]).grid(row=linha, column=1)
+				Label(self, text=raiz.saidaPU_unidades[i]).grid(row=linha, column=2)
+				linha += 1
+
 def resource_path(relative_path):
 	try:
 		base_path = sys._MEIPASS
@@ -221,7 +310,7 @@ def TocarHino():
 
 if __name__ == "__main__":
 	mixer.init()
-	# TocarHino()
+	TocarHino()
 	app = Vasco()
 	app.resizable(False, False)
 	app.title("VASCO")

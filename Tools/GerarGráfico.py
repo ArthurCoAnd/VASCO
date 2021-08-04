@@ -13,7 +13,7 @@ from Tools.Calc import *
 
 def GerarGráfico(d):
 	oCalc = ["I2","E2","Ic","Im","I1_","V1_","Pcu1","Pcu2","Pcu","Pnu","Pt","Rt","Nef"]
-	Ci = d["C"]
+	Ci = d["Sb"]
 	Nefi = d["Nef"]
 	# pp.style("ggplot")
 	pp.grid()
@@ -23,11 +23,11 @@ def GerarGráfico(d):
 	x = linspace(0,d["Pn"],10000)
 	y = []
 	for c in x:
-		d["C"] = c
+		d["Sb"] = c
 		for i in range(len(oCalc)):
 			d[oCalc[i]] = eval("c"+oCalc[i]+"(d)")
 		y.append(d["Nef"])
 	pp.plot(x,y,"-k",linewidth=3)
-	pp.plot(Ci,Nefi,"or",linewidth=5, label=f"C = {Ci} VA")
+	pp.plot(Ci,Nefi,"or",linewidth=5, label=f"S = {Ci} VA")
 	pp.legend()
 	pp.show()

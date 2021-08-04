@@ -42,6 +42,9 @@ def cRc1(d):
 	else:
 		return d["Rc2"]*(d["a"]**2)
 
+def cRc1pu(d):
+	return d["Rc1"]/d["Z1b"]
+
 #          2       2
 #      Rphi  + Xphi 
 # Xm = ─────────────
@@ -51,6 +54,9 @@ def cXm1(d):
 		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
 	else:
 		return d["Xm2"]*(d["a"]**2)
+
+def cXm1pu(d):
+	return d["Xm1"]/d["Z1b"]
 
 #         2       2       2
 #      Vvz    Rphi  + Xphi 
@@ -62,6 +68,9 @@ def cRc2(d):
 	else:
 		return d["Rc1"]/(d["a"]**2)
 
+def cRc2pu(d):
+	return d["Rc2"]/d["Z2b"]
+
 #          2       2
 #      Rphi  + Xphi 
 # Xm = ─────────────
@@ -71,6 +80,9 @@ def cXm2(d):
 		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
 	else:
 		return d["Xm1"]/(d["a"]**2)
+
+def cXm2pu(d):
+	return d["Xm2"]/d["Z2b"]
 
 #          Vvz
 # |zphi| = ───
@@ -119,6 +131,9 @@ def cR1(d):
 	else:
 		return d["R2"]*(d["a"]**2)
 
+def cR1pu(d):
+	return d["R1"]/d["Z1b"]
+
 #            Xeq
 # X1 = X2' = ───
 #             2 
@@ -127,6 +142,9 @@ def cX1(d):
 		return d["Xeq"]/2
 	else:
 		return d["X2"]*(d["a"]**2)
+
+def cX1pu(d):
+	return d["X1"]/d["Z1b"]
 
 #            R1
 # R1' = R2 = ──
@@ -138,6 +156,9 @@ def cR2(d):
 	else:
 		return d["R1"]/(d["a"]**2)
 
+def cR2pu(d):
+	return d["R2"]/d["Z2b"]
+
 #            X1
 # X1' = X2 = ──
 #             2
@@ -148,11 +169,20 @@ def cX2(d):
 	else:
 		return d["X1"]/(d["a"]**2)
 
+def cX2pu(d):
+	return d["X2"]/d["Z2b"]
+
 def cI2(d):
-	return rec(d["C"]/d["V2"],d["ang"])
+	return rec(d["Sb"]/d["V2b"],d["ang"])
+
+def cI2pu(d):
+	return d["I2"]/d["I2b"]
 
 def cE2(d):
-	return d["V2"]+complex(d["R2"],d["X2"])*d["I2"]
+	return d["V2b"]+complex(d["R2"],d["X2"])*d["I2"]
+
+def cE2pu(d):
+	return d["E2"]/d["V2b"]
 
 def cIc(d):
 	return d["E2"]/d["Rc2"]
@@ -163,8 +193,14 @@ def cIm(d):
 def cI1_(d):
 	return d["I2"]+d["Ic"]+d["Im"]
 
+def cI1_pu(d):
+	return d["I1_"]/d["I2b"]
+
 def cV1_(d):
 	return d["E2"]+complex(d["R2"],d["X2"])*d["I1_"]
+
+def cV1_pu(d):
+	return d["V1_"]/d["V2b"]
 
 def cPcu1(d):
 	return d["R2"]*(abs(d["I1_"])**2)
@@ -182,7 +218,34 @@ def cPt(d):
 	return float(d["Pcu"])+float(d["Pnu"])
 
 def cRt(d):
-	return 100*(abs(d["V1_"])-d["V2"])/d["V2"]
+	return 100*(abs(d["V1_"])-d["V2b"])/d["V2b"]
 
 def cNef(d):
-	return 100*d["C"]*d["FP"]/(d["Pt"]+d["C"]*d["FP"])
+	return 100*d["Sb"]*d["FP"]/(d["Pt"]+d["Sb"]*d["FP"])
+
+def cSb(d):
+	try:
+		return float(d["C"])
+	except:
+		return d["Pn"]
+
+def cV2b(d):
+	try:
+		return float(d["V2op"])
+	except:
+		return d["V2"]
+
+def cV1b(d):
+	return d["V2b"]*d["a"]
+
+def cZ2b(d):
+	return (d["V2b"]**2)/d["Sb"]
+
+def cZ1b(d):
+	return (d["V1b"]**2)/d["Sb"]
+
+def cI2b(d):
+	return d["Sb"]/d["V2b"]
+
+def cI1b(d):
+	return d["Sb"]/d["V1b"]
