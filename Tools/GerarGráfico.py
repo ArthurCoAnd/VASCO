@@ -13,21 +13,29 @@ from Tools.Calc import *
 
 def GerarGráfico(d):
 	oCalc = ["I2","E2","Ic","Im","I1_","V1_","Pcu1","Pcu2","Pcu","Pnu","Pt","Rt","Nef"]
-	Ci = d["Sb"]
-	Nefi = d["Nef"]
-	# pp.style("ggplot")
-	pp.grid()
-	pp.title(f"Curva de Rendimento: FP = {d['FP']}")
-	pp.xlabel("Carga Saída (VA)")
-	pp.ylabel("Rendimento (%)")
+	
 	x = linspace(0,d["Pn"],10000)
-	y = []
+	yrt = []
+	yef = []
 	for c in x:
 		d["Sb"] = c
 		for i in range(len(oCalc)):
 			d[oCalc[i]] = eval("c"+oCalc[i]+"(d)")
-		y.append(d["Nef"])
-	pp.plot(x,y,"-k",linewidth=3)
-	pp.plot(Ci,Nefi,"or",linewidth=5, label=f"S = {Ci} VA")
-	pp.legend()
+		yrt.append(d["Rt"])
+		yef.append(d["Nef"])
+	
+	pp.subplot(1,2,1)
+	pp.plot(x,yrt,"-k",linewidth=3)
+	pp.title(f"Regulação de Tensão")
+	pp.xlabel("Carga Saída (VA)")
+	pp.ylabel("Rendimento (%)")
+	pp.grid(True)
+	
+	pp.subplot(1,2,2)
+	pp.plot(x,yef,"-k",linewidth=3)
+	pp.title(f"Curva de Rendimento")
+	pp.xlabel("Carga Saída (VA)")
+	pp.ylabel("Rendimento (%)")
+	pp.grid(True)
+	
 	pp.show()

@@ -21,9 +21,7 @@ class Vasco(Tk):
 		self.dados = {}
 		self.Entradas(self).grid(row=0,column=0)
 		self.CircuitoEquivalente(self).grid(row=0, column=1)
-		self.CircuitoEquivalentePU(self).grid(row=0, column=2)
 		self.Saida(self).grid(row=0, column=3)
-		self.SaidaPU(self).grid(row=0, column=4)
 
 	def Calcular(self, *args):
 		self.lerDados()
@@ -105,34 +103,13 @@ class Vasco(Tk):
 						if self.CE_txt[ii] == CE_calc[i]:
 							self.resultados_CE_var[ii].set(self.dados[CE_calc[i]])
 		# Circuito Equivalente PU
-		if self.dados["lE"] == 0:
-			CE_calc = ["Rc1","Rc2","Xm1","Xm2","R2","R1","X2","X1"]
-			for i in range(len(CE_calc)):
-				try:
-					self.dados[CE_calc[i]+"pu"] = eval("c"+CE_calc[i]+"pu(self.dados)")
-					for ii in range(len(self.CE_txt)):
-						if self.CEpu_txt[ii] == CE_calc[i]:
-							self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]+"pu"]))
-							break
-				except:
-					self.dados[CE_calc[i]+"pu"] = "-"
-					for ii in range(len(self.CE_txt)):
-						if self.CEpu_txt[ii] == CE_calc[i]:
-							self.resultados_CEpu_var[ii].set(self.dados[CE_calc[i]+"pu"])
-		elif self.dados["lE"] == 1:
-			CE_calc = ["Rc2","Rc1","Xm2","Xm1","R1","R2","X1","X2"]
-			for i in range(len(CE_calc)):
-				try:
-					self.dados[CE_calc[i]+"pu"] = eval("c"+CE_calc[i]+"pu(self.dados)")
-					for ii in range(len(self.CE_txt)):
-						if self.CEpu_txt[ii] == CE_calc[i]:
-							self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]+"pu"]))
-							break
-				except:
-					self.dados[CE_calc[i]+"pu"] = "-"
-					for ii in range(len(self.CE_txt)):
-						if self.CEpu_txt[ii] == CE_calc[i]:
-							self.resultados_CEpu_var[ii].set(self.dados[CE_calc[i]+"pu"])
+		for i in range(len(self.CEpu_txt)):
+			try:
+				self.dados[self.CEpu_txt[i]] = eval("c"+self.CEpu_txt[i]+"2(self.dados)")
+				self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]]))
+			except:
+				self.dados[self.CEpu_txt[i]] = "-"
+				self.resultados_CEpu_var[i].set(self.dados[CE_calc[i]])
 		# Saida
 		saida_pol = ["I2","E2","Ic","Im","I1_","V1_"]
 		for i in range(len(self.saida_txt)):
@@ -153,11 +130,11 @@ class Vasco(Tk):
 		# Saida PU
 		for i in range(len(self.saidaPU_txt)):
 			try:
-				self.dados[self.saidaPU_txt[i]+"pu"] = eval("c"+self.saidaPU_txt[i]+"pu(self.dados)")
-				self.saidaPU_var[i].set(pol(self.dados[self.saidaPU_txt[i]+"pu"]))
+				self.dados[self.saidaPU_txt[i]] = eval("c"+self.saidaPU_txt[i]+"(self.dados)")
+				self.saidaPU_var[i].set(pol(self.dados[self.saidaPU_txt[i]]))
 			except:
-				self.dados[self.saidaPU_txt[i]+"pu"] = "-"
-				self.saidaPU_var[i].set(self.dados[self.saidaPU_txt[i]+"pu"])
+				self.dados[self.saidaPU_txt[i]] = "-"
+				self.saidaPU_var[i].set(self.dados[self.saidaPU_txt[i]])
 
 	def CriarGráfico(self):
 		d = self.dados.copy()
@@ -248,15 +225,10 @@ class Vasco(Tk):
 				Label(self, textvariable=raiz.resultados_CE_var[i]).grid(row=linha, column=1)
 				Label(self, text=raiz.CE_unidade[i]).grid(row=linha, column=2)
 				linha += 1
-
-	class CircuitoEquivalentePU(Frame):
-		def __init__(self, raiz):
-			Frame.__init__(self, raiz)
-			self.config(padx=25, pady=15)
-			raiz.CEpu_txt = ["Rc1","Xm1","R1","X1","Rc2","Xm2","R2","X2"]
-			raiz.CEpu_unidade = ["pu","pu","pu","pu","pu","pu","pu","pu"]
+			# PU
+			raiz.CEpu_txt = ["Rcpu","Xmpu","Rpu","Xpu"]
+			raiz.CEpu_unidade = ["pu","pu","pu","pu"]
 			raiz.resultados_CEpu_var = []
-			linha = 0
 			for i in range(len(raiz.CEpu_txt)):
 				Label(self, text=raiz.CEpu_txt[i]).grid(row=linha, column=0)
 				raiz.resultados_CEpu_var.append(StringVar())
@@ -280,13 +252,8 @@ class Vasco(Tk):
 				Label(self, textvariable=raiz.saida_var[i]).grid(row=linha, column=1)
 				Label(self, text=raiz.saida_unidades[i]).grid(row=linha, column=2)
 				linha += 1
-
-	class SaidaPU(Frame):
-		def __init__(self, raiz):
-			Frame.__init__(self, raiz)
-			self.config(padx=25, pady=15)
-			linha = 0
-			raiz.saidaPU_txt = ["I2","E2","I1_","V1_"]
+				# PU
+			raiz.saidaPU_txt = ["I2pu","E2pu","I1_pu","V1_pu"]
 			raiz.saidaPU_unidades = ["pu","pu","pu","pu","pu","pu"]
 			raiz.saidaPU_var = []
 			for i in range(len(raiz.saidaPU_txt)):
