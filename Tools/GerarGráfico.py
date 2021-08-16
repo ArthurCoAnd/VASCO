@@ -18,7 +18,7 @@ def GerarGráfico(d):
 	yrt = []
 	yef = []
 	for c in x:
-		d["Sb"] = c
+		d["Sop"] = c
 		for i in range(len(oCalc)):
 			d[oCalc[i]] = eval("c"+oCalc[i]+"(d)")
 		yrt.append(d["Rt"])

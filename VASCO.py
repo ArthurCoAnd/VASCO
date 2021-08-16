@@ -53,26 +53,20 @@ class Vasco(Tk):
 			except:
 				self.dados[self.entradas_saida_t[i]] = ""
 				self.entradas_saida[i].config(bg="red")
+		for i in range(len(self.entradas_pu_t)):
+			try:
+				self.dados[self.entradas_pu_t[i]] = float(self.entradas_pu_var[i].get())
+				self.entradas_pu[i].config(bg="white")
+			except:
+				self.dados[self.entradas_pu_t[i]] = ""
+				self.entradas_pu[i].config(bg="red")
 
 	def calcularDados(self):
-		try: self.dados["a"] = ca(self.dados)
-		except: pass
-		try: self.dados["ang"] = cang(self.dados)
-		except: pass
-		try: self.dados["Sb"] = cSb(self.dados)
-		except: pass
-		try: self.dados["V2b"] = cV2b(self.dados)
-		except: pass
-		try: self.dados["V1b"] = cV1b(self.dados)
-		except: pass
-		try: self.dados["Z2b"] = cZ2b(self.dados)
-		except: pass
-		try: self.dados["Z1b"] = cZ1b(self.dados)
-		except: pass
-		try: self.dados["I2b"] = cI2b(self.dados)
-		except: pass
-		try: self.dados["I1b"] = cI1b(self.dados)
-		except: pass
+		calcs = ["a","ang","Sop","V2op","Sb","V2b","V1b","Z2b","Z1b","I2b","I1b"]
+		for i in range(len(calcs)):
+			try:
+				self.dados[calcs[i]] = eval("c"+calcs[i]+"(self.dados)")
+			except: pass
 		# Circuito Equivalente
 		if self.dados["lE"] == 0:
 			CE_calc = ["Rc1","Rc2","Zphi","Rphi","Xphi","Xm1","Xm2","Zcc","Req","Xeq","R2","R1","X2","X1"]
@@ -111,7 +105,7 @@ class Vasco(Tk):
 				self.dados[self.CEpu_txt[i]] = "-"
 				self.resultados_CEpu_var[i].set(self.dados[CE_calc[i]])
 		# Saida
-		saida_pol = ["I2","E2","Ic","Im","I1_","V1_"]
+		saida_pol = ["I2","E2","Ic","Im","I1_","V1_","V1op","I1"]
 		for i in range(len(self.saida_txt)):
 			try:
 				self.dados[self.saida_txt[i]] = eval("c"+self.saida_txt[i]+"(self.dados)")
@@ -196,7 +190,7 @@ class Vasco(Tk):
 			linha += 1
 			raiz.entradas_saida = []
 			raiz.entradas_saida_var = []
-			raiz.entradas_saida_t = ["FP","C","V2op"]
+			raiz.entradas_saida_t = ["FP","C","V2c"]
 			raiz.entradas_saida_txt = ["FP","Potência de Operação","Tensão de Operação"]
 			raiz.entradas_saida_unidades = ["","VA","V"]
 			for i in range(len(raiz.entradas_saida_txt)):
@@ -206,6 +200,19 @@ class Vasco(Tk):
 				raiz.entradas_saida.append(Entry(self, textvariable=raiz.entradas_saida_var[i]))
 				raiz.entradas_saida[i].grid(row=linha, column=1)
 				Label(self, text=raiz.entradas_saida_unidades[i]).grid(row=linha, column=2)
+				linha += 1
+			raiz.entradas_pu = []
+			raiz.entradas_pu_var = []
+			raiz.entradas_pu_t = ["Spu","V2pue"]
+			raiz.entradas_pu_txt = ["Potência Base","Tensão Secundário Base"]
+			raiz.entradas_pu_unidades = ["VA","V"]
+			for i in range(len(raiz.entradas_pu_txt)):
+				Label(self, text=raiz.entradas_pu_txt[i]).grid(row=linha, column=0)
+				raiz.entradas_pu_var.append(StringVar())
+				raiz.entradas_pu_var[i].trace("w", raiz.Calcular)
+				raiz.entradas_pu.append(Entry(self, textvariable=raiz.entradas_pu_var[i]))
+				raiz.entradas_pu[i].grid(row=linha, column=1)
+				Label(self, text=raiz.entradas_pu_unidades[i]).grid(row=linha, column=2)
 				linha += 1
 			# Botão Gerar Gráfico
 			Button(self, text="Gerar Gráfico", command=raiz.CriarGráfico).grid(row=linha, column=0)
@@ -242,8 +249,8 @@ class Vasco(Tk):
 			Frame.__init__(self, raiz)
 			self.config(padx=25, pady=15)
 			linha = 0
-			raiz.saida_txt = ["I2","E2","Ic","Im","I1_","V1_","Pcu1","Pcu2","Pcu","Pnu","Pt","Rt","Nef"]
-			raiz.saida_unidades = ["A","V","A","A","A","V","W","W","W","W","W","%","%"]
+			raiz.saida_txt = ["I2","E2","Ic","Im","I1_","V1_","V1op","I1","Pcu1","Pcu2","Pcu","Pnu","Pt","Rt","Nef"]
+			raiz.saida_unidades = ["A","V","A","A","A","V","V","A","W","W","W","W","W","%","%"]
 			raiz.saida_var = []
 			for i in range(len(raiz.saida_txt)):
 				Label(self, text=raiz.saida_txt[i]).grid(row=linha, column=0)
@@ -253,8 +260,8 @@ class Vasco(Tk):
 				Label(self, text=raiz.saida_unidades[i]).grid(row=linha, column=2)
 				linha += 1
 				# PU
-			raiz.saidaPU_txt = ["I2pu","E2pu","I1_pu","V1_pu"]
-			raiz.saidaPU_unidades = ["pu","pu","pu","pu","pu","pu"]
+			raiz.saidaPU_txt = ["V1pu","I1pu","V2pu","I2pu"]
+			raiz.saidaPU_unidades = ["pu","pu","pu","pu"]
 			raiz.saidaPU_var = []
 			for i in range(len(raiz.saidaPU_txt)):
 				Label(self, text=raiz.saidaPU_txt[i]).grid(row=linha, column=0)
