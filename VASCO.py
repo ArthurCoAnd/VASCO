@@ -62,7 +62,7 @@ class Vasco(Tk):
 				self.entradas_pu[i].config(bg="red")
 
 	def calcularDados(self):
-		calcs = ["a","ang","Sop","V2op","Sb","V2b","V1b","Z2b","Z1b","I2b","I1b"]
+		calcs = ["a","FP","ang","Sop","V2op","Sb","V2b","V1b","Z2b","Z1b","I2b","I1b"]
 		for i in range(len(calcs)):
 			try:
 				self.dados[calcs[i]] = eval("c"+calcs[i]+"(self.dados)")

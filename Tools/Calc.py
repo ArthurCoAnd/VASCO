@@ -25,6 +25,10 @@ def rec(rho, phi):
 def ca(d):
 	return d["V1"]/d["V2"]
 
+def cFP(d):
+	try: return float(d["FP"])
+	except: return 1
+
 # ang = acos(FP)
 def cang(d):
 	if d["tFP"] == 0:
