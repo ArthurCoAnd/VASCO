@@ -19,22 +19,9 @@ def rec(rho, phi):
 	y = rho * sin(phi)
 	return complex(x, y)
 
-#     V1
-# a = ──
-#     V2
-def ca(d):
-	return d["V1"]/d["V2"]
-
-def cFP(d):
-	try: return float(d["FP"])
-	except: return 1
-
-# ang = acos(FP)
-def cang(d):
-	if d["tFP"] == 0:
-		return -acos(d["FP"])
-	else:
-		return acos(d["FP"])
+# =================================
+# = Calculos Circuito Equivalente =
+# =================================
 
 #         2       2       2
 #      Vvz    Rphi  + Xphi 
@@ -46,9 +33,6 @@ def cRc1(d):
 	else:
 		return d["Rc2"]*(d["a"]**2)
 
-def cRc1pu(d):
-	return d["Rc1"]/d["Z1b"]
-
 #          2       2
 #      Rphi  + Xphi 
 # Xm = ─────────────
@@ -58,9 +42,6 @@ def cXm1(d):
 		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
 	else:
 		return d["Xm2"]*(d["a"]**2)
-
-def cXm1pu(d):
-	return d["Xm1"]/d["Z1b"]
 
 #         2       2       2
 #      Vvz    Rphi  + Xphi 
@@ -72,9 +53,6 @@ def cRc2(d):
 	else:
 		return d["Rc1"]/(d["a"]**2)
 
-def cRc2pu(d):
-	return d["Rc2"]/d["Z2b"]
-
 #          2       2
 #      Rphi  + Xphi 
 # Xm = ─────────────
@@ -84,9 +62,6 @@ def cXm2(d):
 		return (d["Rphi"]**2 + d["Xphi"]**2)/d["Xphi"]
 	else:
 		return d["Xm1"]/(d["a"]**2)
-
-def cXm2pu(d):
-	return d["Xm2"]/d["Z2b"]
 
 #          Vvz
 # |zphi| = ───
@@ -135,9 +110,6 @@ def cR1(d):
 	else:
 		return d["R2"]*(d["a"]**2)
 
-def cR1pu(d):
-	return d["R1"]/d["Z1b"]
-
 #            Xeq
 # X1 = X2' = ───
 #             2 
@@ -146,9 +118,6 @@ def cX1(d):
 		return d["Xeq"]/2
 	else:
 		return d["X2"]*(d["a"]**2)
-
-def cX1pu(d):
-	return d["X1"]/d["Z1b"]
 
 #            R1
 # R1' = R2 = ──
@@ -160,9 +129,6 @@ def cR2(d):
 	else:
 		return d["R1"]/(d["a"]**2)
 
-def cR2pu(d):
-	return d["R2"]/d["Z2b"]
-
 #            X1
 # X1' = X2 = ──
 #             2
@@ -173,16 +139,34 @@ def cX2(d):
 	else:
 		return d["X1"]/(d["a"]**2)
 
-def cX2pu(d):
+# ====================================
+# = Calculos Circuito Equivalente PU =
+# ====================================
+
+def cZ1b(d):
+	return (d["V1b"]**2)/d["Sb"]
+
+def cZ2b(d):
+	return (d["V2b"]**2)/d["Sb"]
+
+def cRcpu(d):
+	return d["Rc2"]/d["Z2b"]
+
+def cXmpu(d):
+	return d["Xm2"]/d["Z2b"]
+
+def cRpu(d):
+	return d["R2"]/d["Z2b"]
+
+def cXpu(d):
 	return d["X2"]/d["Z2b"]
 
-######################################################
+# ====================================
+# = Calculos Eficiência e Rendimento =
+# ====================================
 
 def cI2(d):
 	return rec(d["Sop"]/d["V2op"],d["ang"])
-
-def cI2pu(d):
-	return d["I2"]/d["I2b"]
 
 def cE2(d):
 	return d["V2op"]+complex(d["R2"],d["X2"])*d["I2"]
@@ -198,9 +182,6 @@ def cI1_(d):
 
 def cI1(d):
 	return d["I1_"]/d["a"]
-
-def cI1pu(d):
-	return d["I1"]/d["I1b"]
 
 def cV1_(d):
 	return d["E2"]+complex(d["R2"],d["X2"])*d["I1_"]
@@ -229,6 +210,39 @@ def cRt(d):
 def cNef(d):
 	return 100*d["Sop"]*d["FP"]/(d["Pt"]+d["Sop"]*d["FP"])
 
+# =======================================
+# = Calculos Eficiência e Rendimento PU =
+# =======================================
+
+def cV1pu(d):
+	return d["V1op"]/d["V1b"]
+
+def cV2pu(d):
+	return d["V2op"]/d["V2b"]
+
+def cI1pu(d):
+	return d["I1"]/d["I1b"]
+
+def cI2pu(d):
+	return d["I2"]/d["I2b"]
+
+# ===================================
+# = Calculos Valores Inicias e Base =
+# ===================================
+
+def ca(d):
+	return d["V1"]/d["V2"]
+
+def cFP(d):
+	try: return float(d["FP"])
+	except: return 1
+
+def cang(d):
+	if d["tFP"] == 0:
+		return -acos(d["FP"])
+	else:
+		return acos(d["FP"])
+
 def cSop(d):
 	try:
 		return float(d["C"])
@@ -253,20 +267,8 @@ def cV2b(d):
 	except:
 		return d["V2"]
 
-def cV2pu(d):
-	return d["V2op"]/d["V2b"]
-
 def cV1b(d):
 	return d["V2b"]*d["a"]
-
-def cV1pu(d):
-	return d["V1op"]/d["V1b"]
-
-def cZ2b(d):
-	return (d["V2b"]**2)/d["Sb"]
-
-def cZ1b(d):
-	return (d["V1b"]**2)/d["Sb"]
 
 def cI2b(d):
 	return d["Sb"]/d["V2b"]

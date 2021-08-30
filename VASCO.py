@@ -99,11 +99,11 @@ class Vasco(Tk):
 		# Circuito Equivalente PU
 		for i in range(len(self.CEpu_txt)):
 			try:
-				self.dados[self.CEpu_txt[i]] = eval("c"+self.CEpu_txt[i]+"2(self.dados)")
-				self.resultados_CEpu_var[ii].set(str(self.dados[CE_calc[i]]))
+				self.dados[self.CEpu_txt[i]] = eval("c"+self.CEpu_txt[i]+"(self.dados)")
+				self.resultados_CEpu_var[i].set(str(self.dados[self.CEpu_txt[i]]))
 			except:
 				self.dados[self.CEpu_txt[i]] = "-"
-				self.resultados_CEpu_var[i].set(self.dados[CE_calc[i]])
+				self.resultados_CEpu_var[i].set(self.dados[self.CEpu_txt[i]])
 		# Saida
 		saida_pol = ["I2","E2","Ic","Im","I1_","V1_","V1op","I1"]
 		for i in range(len(self.saida_txt)):
